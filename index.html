@@ -73,12 +73,12 @@
       $("#sortable").disableSelection();
     });
 
-    function submitRanking() {
-      const items = document.querySelectorAll("#sortable li");
-      const ranked = Array.from(items).map((item) => item.textContent);
-      localStorage.setItem("rankedCriteria", JSON.stringify(ranked));
-      window.location.href = "karsilastirma.html"; // İkinci sayfa bu olmalı
-    }
+   function submitRanking() {
+  const items = document.querySelectorAll("#sortable li");
+  const ranked = Array.from(items).map((item) => item.textContent);
+  localStorage.setItem("rankedCriteria", JSON.stringify(ranked));
+  window.location.href = "https://nurayyyyy.github.io/anket-uygulamasi/karsilastirma.html";
+}
   </script>
 </body>
 </html>
