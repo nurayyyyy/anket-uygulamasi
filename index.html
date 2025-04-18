@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kriter Sıralama</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f9fc;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    #sortable {
+      list-style-type: none;
+      padding: 0;
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+    #sortable li {
+      padding: 1rem;
+      margin: 0.5rem 0;
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: grab;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    button {
+      display: block;
+      margin: 2rem auto;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lütfen Aşağıdaki Kriterleri Öncelik Sırasına Göre Sürükleyip Bırakarak Sıralayın</h1>
+  <ul id="sortable">
+    <li>Temizlik</li>
+    <li>İyi İletişim ve Bilgilendirme</li>
+    <li>Uygun Fiyatlandırma</li>
+    <li>Randevu Kolaylığı</li>
+    <li>Sorunun çözüme ulaştırılması</li>
+    <li>Müşteriye Yönelik Özenli ve İlgili Hizmet</li>
+    <li>İkame araç Temini</li>
+    <li>Hızlı Servis Süresi</li>
+    <li>Uzman Personel</li>
+    <li>Hizmet Kalitesi ve Teknik İşçilik</li>
+    <li>Yedek Parçaların Hızlı Temini</li>
+    <li>Güvenlik - Servis Alanlarının Şeffaflığı</li>
+    <li>Temiz ve Düzenli Servis Alanı</li>
+    <li>Garanti ve Servis Sonrası Destek</li>
+  </ul>
+  <button onclick="submitRanking()">Sıralamayı Kaydet ve Devam Et</button>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script>
+    $(function () {
+      $("#sortable").sortable();
+      $("#sortable").disableSelection();
+    });
+
+    function submitRanking() {
+      const items = document.querySelectorAll("#sortable li");
+      const ranked = Array.from(items).map((item) => item.textContent);
+      localStorage.setItem("rankedCriteria", JSON.stringify(ranked));
+      window.location.href = "karsilastirma-anketi.html"; // İkinci sayfa bu olmalı
+    }
+  </script>
+</body>
+</html>

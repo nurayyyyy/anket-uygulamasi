@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kriter Karşılaştırma</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f9fc;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .comparison {
+      padding: 1rem;
+      margin: 0.5rem 0;
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .comparison p {
+      font-size: 1.1rem;
+    }
+    button {
+      display: block;
+      margin: 2rem auto;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>İlk Sayfadaki Sıralama Sonuçlarına Göre Kriterleri Karşılaştırın</h1>
+  <div id="comparison-container">
+    <!-- Karşılaştırmalar burada dinamik olarak eklenecek -->
+  </div>
+  <button onclick="submitComparison()">Karşılaştırmayı Kaydet ve Gönder</button>
+
+  <script>
+    // Önce localStorage’dan sıralamayı al
+  const rankedCriteria = JSON.parse(localStorage.getItem("rankedCriteria")) || [];
+
+// Sayfaya karşılaştırma sorularını ekleyen kod
+const comparisonContainer = document.getElementById("comparison-container");
+rankedCriteria.forEach((criterion, index) => {
+  if (index < rankedCriteria.length - 1) {
+    const nextCriterion = rankedCriteria[index + 1];
+    const div = document.createElement("div");
+    div.classList.add("comparison");
+    div.innerHTML = `
+      <p><strong>${criterion}</strong> kriteri, <strong>${nextCriterion}</strong> kriterine göre ne kadar daha önemlidir?</p>
+      <label>
+        <select id="importance-${index}">
+          <option value="çok daha önemli">Çok Daha Önemli</option>
+          <option value="daha önemli">Daha Önemli</option>
+          <option value="biraz daha önemli">Biraz Daha Önemli</option>
+          <option value="eşit">Eşit</option>
+          <option value="daha az önemli">Daha Az Önemli</option>
+        </select>
+      </label>
+    `;
+    comparisonContainer.appendChild(div);
+  }
+});
+
+// Gönder butonuna tıklanınca çalışacak fonksiyon
+function submitComparison() {
+  const comparisons = [];
+  for (let i = 0; i < rankedCriteria.length - 1; i++) {
+    const val = document.getElementById(`importance-${i}`).value;
+    comparisons.push({
+      criteria1: rankedCriteria[i],
+      criteria2: rankedCriteria[i + 1],
+      importance: val
+    });
+  }
+
+  // BURAYA kendi Apps Script Web App URL’inizi yapıştırın:
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZ5wXl4Vdc8CY-Yn-HpW2WhUnGWEIWNdD6w9W_prBZI8vEgmur4_5yy0Wf3QcoKfwokg/exec";
+
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ranked: rankedCriteria, comparisons })
+  })
+  .then(res => res.json())
+  .then(res => {
+    if (res.status === "success") {
+      alert("Cevaplar başarıyla kaydedildi, teşekkürler!");
+      localStorage.removeItem("rankedCriteria");
+    } else {
+      throw new Error(res.message);
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Bir hata oluştu: " + err.message);
+  });
+}
+  </script>
+</body>
+</html>
