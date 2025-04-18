@@ -91,23 +91,27 @@ function submitComparison() {
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyinCcPmlSb3qmMCYFBTxlTB23z2JdTDK8mjEC_5pe9KhIBLdqevRv_F2V76jj5dXEhoA/exec";
 
   fetch(SCRIPT_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ranked: rankedCriteria, comparisons })
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    ranked: rankedCriteria, 
+    comparisons: comparisons
   })
-  .then(res => res.json())
-  .then(res => {
-    if (res.status === "success") {
-      alert("Cevaplar başarıyla kaydedildi, teşekkürler!");
-      localStorage.removeItem("rankedCriteria");
-    } else {
-      throw new Error(res.message);
-    }
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Bir hata oluştu: " + err.message);
-  });
+})
+.then(response => response.json())
+.then(data => {
+  if (data.status === 'success') {
+    alert("Cevaplar başarıyla kaydedildi, teşekkürler!");
+  } else {
+    throw new Error(data.message);
+  }
+})
+.catch(error => {
+  console.error("Error:", error);
+  alert("Bir hata oluştu: " + error.message);
+});
 }
   </script>
 </body>
