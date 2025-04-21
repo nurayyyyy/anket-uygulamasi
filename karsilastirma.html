@@ -88,21 +88,18 @@ function submitComparison() {
   }
 
   // BURAYA kendi Apps Script Web App URL’inizi yapıştırın:
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMoZloOshtVRZnAKpu46zUYrKFm59f8FKSkbfxQ0r4ddbsXcZ8HFK3sheCht8le985jQ/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCYngrmYTp3L7pQ2XGUSuC1J70Qcjm7XKctSm97ymhw0-8iSkN3UlYDBfL8SKrp5XcRg/exec";
 
   fetch(SCRIPT_URL, {
   method: "POST",
   headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*", // CORS başlığını ekliyoruz
-    "Access-Control-Allow-Methods": "POST", // İzin verilen HTTP metodunu belirtiyoruz
-    "Access-Control-Allow-Headers": "Content-Type" // İzin verilen header'ları belirtiyoruz
+    "Content-Type": "application/json"
   },
   body: JSON.stringify({
     ranked: rankedCriteria, 
     comparisons: comparisons
   }),
-  mode: 'cors'  // CORS kontrolünü ekliyoruz
+  mode: 'cors'
 })
 .then(response => response.json())
 .then(data => {
