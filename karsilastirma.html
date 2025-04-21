@@ -77,6 +77,10 @@ rankedCriteria.forEach((criterion, index) => {
 
 // Gönder butonuna tıklanınca çalışacak fonksiyon
 function submitComparison() {
+  const button = document.querySelector("button");
+  button.disabled = true;
+  button.textContent = "Gönderiliyor...";
+
   const comparisons = [];
   for (let i = 0; i < rankedCriteria.length - 1; i++) {
     const val = document.getElementById(`importance-${i}`).value;
@@ -87,7 +91,6 @@ function submitComparison() {
     });
   }
 
-  // BURAYA kendi Apps Script Web App URL’inizi yapıştırın:
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxj4lYC_LcTn-sL5IL0I77Ya9dk5YEy2Mfo0x33E_FDAT76-zjf4_glA5iRVtn7plCCCg/exec";
 
   const formData = new FormData();
@@ -110,8 +113,12 @@ function submitComparison() {
   .catch(error => {
     console.error("Error:", error);
     alert("Bir hata oluştu: " + error.message);
+    // Hata durumunda buton tekrar aktif hale getirilebilir istenirse:
+    // button.disabled = false;
+    // button.textContent = "Karşılaştırmayı Kaydet ve Gönder";
   });
 }
+
 
   </script>
 </body>
