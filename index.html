@@ -76,11 +76,22 @@
     });
 
     function submitRanking() {
-      const items = document.querySelectorAll("#sortable li");
-      const ranked = Array.from(items).map((item) => item.textContent);
-      localStorage.setItem("rankedCriteria", JSON.stringify(ranked));
-      window.location.href = "https://nurayyyyy.github.io/anket-uygulamasi/karsilastirma.html";
-    }
+  const button = document.querySelector("button");
+  button.textContent = "Gönderiliyor...";
+  button.disabled = true;
+  button.style.backgroundColor = "#888";
+
+  const items = document.querySelectorAll("#sortable li");
+  const ranked = Array.from(items).map((item) => item.textContent);
+  localStorage.setItem("rankedCriteria", JSON.stringify(ranked));
+
+  // Kısa bir bekleme ile kullanıcıya gönderildiği hissini veriyoruz
+  setTimeout(() => {
+    button.textContent = "Cevabınız kaydedildi, yönlendiriliyorsunuz...";
+    window.location.href = "https://nurayyyyy.github.io/anket-uygulamasi/karsilastirma.html";
+  }, 1000);
+}
+
   </script>
 </body>
 </html>
