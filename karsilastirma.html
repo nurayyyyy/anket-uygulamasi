@@ -90,30 +90,29 @@ function submitComparison() {
   // BURAYA kendi Apps Script Web App URL’inizi yapıştırın:
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-Vk-eyScLU-q5YwxZ4oZIjaJG3kR_8YrbVd8q9cVSM4mmAkWFQINLNLqila0eXfSl-g/exec";
 
+  const formData = new FormData();
+  formData.append("ranked", JSON.stringify(rankedCriteria));
+  formData.append("comparisons", JSON.stringify(comparisons));
+
   fetch(SCRIPT_URL, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    ranked: rankedCriteria, 
-    comparisons: comparisons
-  }),
-  mode: 'cors'
-})
-.then(response => response.json())
-.then(data => {
-  if (data.status === 'success') {
-    alert("Cevaplar başarıyla kaydedildi, teşekkürler!");
-  } else {
-    throw new Error(data.message);
-  }
-})
-.catch(error => {
-  console.error("Error:", error);
-  alert("Bir hata oluştu: " + error.message);
-});
+    method: "POST",
+    body: formData,
+    mode: "cors"
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      alert("Cevaplar başarıyla kaydedildi, teşekkürler!");
+    } else {
+      throw new Error(data.message);
+    }
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    alert("Bir hata oluştu: " + error.message);
+  });
 }
+
   </script>
 </body>
 </html>
