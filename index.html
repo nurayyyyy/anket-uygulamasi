@@ -28,6 +28,8 @@
       border-radius: 8px;
       cursor: grab;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      touch-action: manipulation;
+      user-select: none;
     }
     button {
       display: block;
@@ -65,20 +67,20 @@
   </ul>
   <button onclick="submitRanking()">Sıralamayı Kaydet ve Devam Et</button>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <!-- jQuery yerine SortableJS kullanıyoruz -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <script>
-    $(function () {
-      $("#sortable").sortable();
-      $("#sortable").disableSelection();
+    // Mobil ve masaüstü uyumlu sıralama
+    new Sortable(document.getElementById("sortable"), {
+      animation: 150,
     });
 
-   function submitRanking() {
-  const items = document.querySelectorAll("#sortable li");
-  const ranked = Array.from(items).map((item) => item.textContent);
-  localStorage.setItem("rankedCriteria", JSON.stringify(ranked));
-  window.location.href = "https://nurayyyyy.github.io/anket-uygulamasi/karsilastirma.html";
-}
+    function submitRanking() {
+      const items = document.querySelectorAll("#sortable li");
+      const ranked = Array.from(items).map((item) => item.textContent);
+      localStorage.setItem("rankedCriteria", JSON.stringify(ranked));
+      window.location.href = "https://nurayyyyy.github.io/anket-uygulamasi/karsilastirma.html";
+    }
   </script>
 </body>
 </html>
